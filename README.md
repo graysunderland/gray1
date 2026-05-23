@@ -2,6 +2,12 @@
 
 A handbuilt product & UX design portfolio. No frameworks, no dependencies — just HTML, CSS, and a small JS file.
 
+## V1 Status
+
+This is **v1** — homepage only, ready to ship. All work tiles currently link out to `https://solana.com` while case study content is in production. Marquee and work grid use the Solana phone mockup as a unified placeholder.
+
+**To flip case studies back on later:** change the `href` on each `.work-tile` from `https://solana.com` to `projects/project-01.html` (etc.) and remove `target="_blank" rel="noopener"`. The case study templates are already built and waiting in `/projects`.
+
 ## File structure
 
 ```

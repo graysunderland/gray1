@@ -28,11 +28,17 @@
   /* ---- Typed hero word ---- */
   const typedEl = document.querySelector('[data-typed]');
   if (typedEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const words = ['considered', 'enduring', 'human', 'precise', 'inevitable'];
-    const TYPE_SPEED = 90;
-    const DELETE_SPEED = 45;
-    const HOLD = 1800;
-    const PAUSE = 350;
+    const words = [
+      'most ambitious teams.',
+      'boldest founders.',
+      'sharpest operators.',
+      'best-in-class builders.',
+      'most relentless teams.'
+    ];
+    const TYPE_SPEED = 70;
+    const DELETE_SPEED = 35;
+    const HOLD = 2400;
+    const PAUSE = 400;
 
     let wordIndex = 0;
     let charIndex = 0;
@@ -64,7 +70,7 @@
 
     setTimeout(step, 500);
   } else if (typedEl) {
-    typedEl.textContent = 'considered';
+    typedEl.textContent = "most ambitious teams.";
   }
 
   /* ---- Nav scroll state ---- */
