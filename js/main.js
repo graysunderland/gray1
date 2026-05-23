@@ -25,6 +25,48 @@
     setInterval(tick, 1000);
   }
 
+  /* ---- Typed hero word ---- */
+  const typedEl = document.querySelector('[data-typed]');
+  if (typedEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const words = ['considered', 'enduring', 'human', 'precise', 'inevitable'];
+    const TYPE_SPEED = 90;
+    const DELETE_SPEED = 45;
+    const HOLD = 1800;
+    const PAUSE = 350;
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    const step = () => {
+      const word = words[wordIndex];
+      if (!isDeleting) {
+        charIndex++;
+        typedEl.textContent = word.slice(0, charIndex);
+        if (charIndex === word.length) {
+          isDeleting = true;
+          setTimeout(step, HOLD);
+          return;
+        }
+        setTimeout(step, TYPE_SPEED + Math.random() * 40);
+      } else {
+        charIndex--;
+        typedEl.textContent = word.slice(0, charIndex);
+        if (charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          setTimeout(step, PAUSE);
+          return;
+        }
+        setTimeout(step, DELETE_SPEED);
+      }
+    };
+
+    setTimeout(step, 500);
+  } else if (typedEl) {
+    typedEl.textContent = 'considered';
+  }
+
   /* ---- Nav scroll state ---- */
   const nav = document.querySelector('.nav');
   if (nav) {
@@ -36,10 +78,8 @@
   }
 
   /* ---- Intersection reveal ---- */
-  const revealEls = document.querySelectorAll('.reveal, .work-item');
+  const revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length && 'IntersectionObserver' in window) {
-    // Mark elements as animatable ONLY if they're below the fold.
-    // Anything already in view at load shouldn't fade in awkwardly.
     const viewportH = window.innerHeight;
     revealEls.forEach((el) => {
       const rect = el.getBoundingClientRect();
@@ -65,11 +105,9 @@
       if (el.classList.contains('is-animatable')) io.observe(el);
     });
 
-    // Safety: ensure everything resolves to visible eventually even if
-    // the observer doesn't fire (e.g. instant scroll, screenshot tools).
     setTimeout(() => {
       revealEls.forEach((el) => el.classList.add('is-visible'));
-    }, 4000);
+    }, 5000);
   } else {
     revealEls.forEach((el) => el.classList.add('is-visible'));
   }
