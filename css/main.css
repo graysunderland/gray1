@@ -75,10 +75,89 @@ body {
   font-weight: 400;
   letter-spacing: -0.005em;
   overflow-x: hidden;
+  /* Prevent widow words across all paragraph text. Modern browsers only;
+     older ones gracefully fall back to default wrap. */
+  text-wrap: pretty;
+}
+
+/* Headings get balanced wrap so no line is dramatically shorter than the others */
+h1, h2, h3, h4, blockquote, .about-statement p:first-child,
+.clients-intro, .hero-title, .footer-tagline, .footer-brand {
+  text-wrap: balance;
 }
 
 /* Selection */
 ::selection { background: var(--ink); color: var(--bg); }
+
+/* ---- Custom cursor ----
+   Renders only on devices with a real pointer. Hidden on touch.
+   The cursor follows the mouse via JS-applied transform.
+   When hovering a link/button, it gets .is-link which reveals the "+".
+
+   Implementation note: mix-blend-mode: difference with a white base means
+   the cursor appears as the visual inverse of whatever's under it. On the
+   cream background it reads as near-black (matching the spec). On dark
+   imagery (work tiles, footer wordmark) it stays visible as near-white.
+   Best of both, no flicker, no JS-driven color logic. */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate3d(-50%, -50%, 0);
+  transition:
+    width 0.3s var(--ease),
+    height 0.3s var(--ease),
+    opacity 0.2s var(--ease);
+  opacity: 0;
+  display: none;
+  mix-blend-mode: difference;
+}
+
+.cursor.is-visible { opacity: 1; }
+
+/* Larger circle + plus icon over interactive elements */
+.cursor.is-link {
+  width: 44px;
+  height: 44px;
+}
+
+.cursor-plus {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Black on the white cursor — inside the difference-blended region,
+     black stays as the surface color showing through (creates a hole effect). */
+  color: #000000;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.25s var(--ease), transform 0.3s var(--ease);
+  user-select: none;
+}
+
+.cursor.is-link .cursor-plus {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Only enable the custom cursor on devices with a real pointer (desktop).
+   On touch devices, the cursor element stays hidden and the OS cursor stays. */
+@media (hover: hover) and (pointer: fine) {
+  .cursor { display: block; }
+  html, body { cursor: none; }
+  a, button, [role="button"], .work-tile, .cta, .nav-cta { cursor: none; }
+}
 
 /* ---- Type utilities ---- */
 .eyebrow {
@@ -234,29 +313,38 @@ body {
 }
 
 /* ---- Hero ---- */
+/* The hero fills the viewport between the nav and where the marquee begins.
+   We use min-height for the wrap and center the title in the leftover space
+   after subtracting nav clearance. The marquee then peeks below. */
+/* ---- Hero ----
+   Title sits visually centered between nav (top) and marquee (bottom).
+   We use explicit large padding-top rather than flex-center, because the
+   "visual" centering needs to account for the fixed nav sitting on top of
+   the hero rather than pushing it down. The marquee peeks ~140px below. */
 .hero {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding-top: 140px;
-  padding-bottom: clamp(48px, 6vw, 80px);
+  justify-content: flex-start;
   position: relative;
-  /* Sized so the marquee peeks at the bottom of the initial viewport */
-  min-height: 72svh;
+  min-height: calc(100svh - 140px);
+  /* Push title down to visually center between nav bottom and marquee top */
+  padding-top: clamp(220px, 32vh, 340px);
+  padding-bottom: 40px;
 }
 
 @media (max-width: 960px) {
   .hero {
-    min-height: 60svh;
-    padding-top: 120px;
-    padding-bottom: 48px;
+    min-height: calc(100svh - 120px);
+    padding-top: clamp(180px, 26vh, 260px);
+    padding-bottom: 40px;
   }
 }
 
 @media (max-width: 560px) {
   .hero {
-    min-height: 0;
-    padding-top: 100px;
+    min-height: calc(100svh - 100px);
+    justify-content: center;
+    padding-top: 96px;
     padding-bottom: 40px;
   }
 }
@@ -268,6 +356,15 @@ body {
   line-height: 1.1;
   margin-bottom: clamp(48px, 8vw, 96px);
   max-width: 18ch;
+}
+
+/* On phones, shrink the hero type so the longest typed phrase fits on one line
+   without wrapping. Prevents orphan/widow at narrow widths. */
+@media (max-width: 560px) {
+  .hero-title {
+    font-size: clamp(1.75rem, 7.5vw, 2.5rem);
+    letter-spacing: -0.03em;
+  }
 }
 
 .hero-line {
@@ -289,8 +386,7 @@ body {
 .hero-typed-text {
   display: inline-block;
   color: var(--ink-soft);
-  font-style: italic;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .hero-typed-caret {
@@ -310,12 +406,12 @@ body {
   51%, 100% { opacity: 0; }
 }
 
-/* On narrow viewports allow wrap so very long phrases don't overflow */
+/* On narrow viewports keep nowrap so phrases stay on one line at the
+   smaller mobile font size. The smaller hero font (handled in .hero-title
+   media query) ensures even the longest phrase fits. */
 @media (max-width: 560px) {
   .hero-line--typed {
-    white-space: normal;
     min-width: 0;
-    flex-wrap: wrap;
   }
 }
 
@@ -357,7 +453,8 @@ body {
 
 /* ---- Marquee ---- */
 .marquee {
-  padding-block: clamp(40px, 6vw, 80px);
+  padding-top: 0;
+  padding-bottom: clamp(40px, 6vw, 80px);
   overflow: hidden;
   position: relative;
 }
@@ -478,7 +575,7 @@ body {
 
 .work-tile:hover .work-tile-media img,
 .work-tile:hover .work-tile-media video {
-  transform: scale(1.04);
+  transform: scale(1.3);
 }
 
 .work-tile-media.placeholder {
@@ -558,51 +655,45 @@ body {
 .client {
   display: flex;
   align-items: center;
-  min-height: 32px;
-  --brand: var(--ink);
+  justify-content: flex-start;
+  min-height: 48px;
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
 }
 
-.client-mark {
-  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  color: var(--ink);
-  transition: color 0.4s var(--ease), transform 0.4s var(--ease);
-  cursor: default;
-  display: inline-block;
-}
-
-.client:hover .client-mark {
-  color: var(--brand);
-  transform: translateY(-2px);
-}
-
-/* When a real SVG logo replaces the text, this class makes it sit clean */
-.client--svg .client-mark svg {
-  height: clamp(18px, 1.6vw, 26px);
+.client-logo {
+  /* Force monotone — strips any colour from the source SVG. */
+  filter: brightness(0);
+  /* Wordmark default — wide horizontal logos */
+  height: clamp(20px, 1.8vw, 28px);
   width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
+  opacity: 0.55;
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
   display: block;
-  fill: var(--ink);
-  transition: fill 0.4s var(--ease), transform 0.4s var(--ease);
 }
 
-.client--svg:hover .client-mark svg {
-  fill: var(--brand);
+/* Stacked / icon-led logos (Nike, Cobram, Tommee Tippee) need more vertical
+   space to register at similar visual weight to the wordmarks. */
+.client-logo--mark {
+  height: clamp(36px, 3.2vw, 52px);
+}
+
+a.client:hover .client-logo,
+a.client:focus-visible .client-logo {
+  opacity: 1;
   transform: translateY(-2px);
 }
 
-/* Muted "+ more" sentinel */
-.client--more .client-mark {
+/* Muted "+ more" sentinel — stays as text */
+.client--more {
   color: var(--ink-mute);
   font-weight: 400;
   font-family: var(--font-mono);
   font-size: var(--fs-sm);
   letter-spacing: 0;
-}
-
-.client--more:hover .client-mark {
-  color: var(--ink-soft);
-  transform: none;
+  align-self: center;
 }
 
 /* ---- Testimonials ---- */

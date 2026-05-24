@@ -6,7 +6,20 @@ A handbuilt product & UX design portfolio. No frameworks, no dependencies — ju
 
 This is **v1** — homepage only, ready to ship. All work tiles currently link out to `https://solana.com` while case study content is in production. Marquee and work grid use the Solana phone mockup as a unified placeholder.
 
+**Key features included:**
+- Vertically-centered hero with locked-in-place typing animation (no clunky reflow)
+- Custom black cursor that becomes a `+` over interactive elements (desktop only; mobile uses native cursor)
+- 3×2 work grid with 30% hover zoom + project name overlay
+- 4-column clients logo wall, monotone (`filter: brightness(0)`)
+- Live local clock in footer
+- Full mobile-responsive across 390 → 1440+ widths
+- Anti-widow text-wrap rules + targeted non-breaking spaces
+
 **To flip case studies back on later:** change the `href` on each `.work-tile` from `https://solana.com` to `projects/project-01.html` (etc.) and remove `target="_blank" rel="noopener"`. The case study templates are already built and waiting in `/projects`.
+
+**Flags to verify before going live:**
+- `images/logos/hypeDC.svg` renders as "LIMIT'D" wordmark — may be wrong file or a sub-brand. Replace if needed.
+- `acclaim.agency` URL is a best guess — confirm before launching.
 
 ## File structure
 

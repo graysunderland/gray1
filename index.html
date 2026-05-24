@@ -14,6 +14,14 @@
 </head>
 <body>
 
+  <!-- ============ CUSTOM CURSOR ============ -->
+  <!-- Only renders on devices with a real pointer (desktop). Hidden by CSS
+       on touch devices. Sits above everything else; pointer-events: none so
+       it never blocks clicks. The + appears when hovering a link. -->
+  <div class="cursor" aria-hidden="true">
+    <span class="cursor-plus">+</span>
+  </div>
+
   <!-- ============ NAV ============ -->
   <nav class="nav" aria-label="Primary">
     <a href="/" class="nav-brand">GRAY SUNDERLAND</a>
@@ -28,8 +36,8 @@
   <!-- ============ HERO ============ -->
   <header class="hero shell">
     <h1 class="hero-title">
-      <span class="hero-line">Product design</span>
-      <span class="hero-line">for the world's</span>
+      <span class="hero-line">Product&nbsp;design</span>
+      <span class="hero-line">for the&nbsp;world's</span>
       <span class="hero-line hero-line--typed">
         <span class="hero-typed-text" data-typed></span><span class="hero-typed-caret" aria-hidden="true"></span>
       </span>
@@ -57,8 +65,8 @@
   <!-- ============ ABOUT STATEMENT ============ -->
   <section class="section shell reveal" id="about">
     <div class="about-statement">
-      <p>Fifteen years working with the world's most ambitious teams — from Solana and Nike to early-stage founders shipping their first product.</p>
-      <p>The work spans product design, design systems, UX strategy, and brand. The thread through it: interfaces that earn trust on first use and hold up under real pressure.</p>
+      <p>Fifteen years working with the world's most ambitious teams — from Solana and Nike to early-stage founders shipping their first&nbsp;product.</p>
+      <p>The work spans product design, design systems, UX strategy, and brand. The thread through it: interfaces that earn trust on first use and hold up under real&nbsp;pressure.</p>
     </div>
   </section>
 
@@ -112,31 +120,57 @@
   </section>
 
   <!-- ============ CLIENTS ============ -->
-  <!-- To swap a text wordmark for a real SVG logo: replace the inner text
-       of .client-mark with <svg>...</svg> and add class .client--svg to .client.
-       Each client carries a CSS var --brand which sets the hover color. -->
+  <!-- Logos render as monotone (filter: brightness(0)).
+       FLAGS TO VERIFY:
+       1. hypeDC.svg uploaded file actually renders as "LIMIT'D" wordmark —
+          may be wrong file or a sub-brand. Confirm or replace the SVG.
+       2. acclaim.agency URL is a best guess — confirm the correct client URL.
+       3. .client-logo--mark adds extra height for icon-led/stacked logos
+          (Nike, Cobram, Tommee Tippee). -->
   <section class="section shell clients-section" id="clients">
-    <p class="clients-intro">Trusted by ambitious teams worldwide.</p>
+    <p class="clients-intro">Trusted by ambitious teams&nbsp;worldwide.</p>
     <div class="clients-grid">
-      <div class="client" style="--brand: #14F195;"><span class="client-mark">Solana</span></div>
-      <div class="client" style="--brand: #111111;"><span class="client-mark">Nike</span></div>
-      <div class="client" style="--brand: #E60028;"><span class="client-mark">Hype DC</span></div>
-      <div class="client" style="--brand: #14F195;"><span class="client-mark">Solana Foundation</span></div>
-      <div class="client" style="--brand: #6B5BFF;"><span class="client-mark">Superteam</span></div>
-      <div class="client" style="--brand: #1428A0;"><span class="client-mark">Samsung</span></div>
-      <div class="client" style="--brand: #0066FF;"><span class="client-mark">Acclaim</span></div>
-      <div class="client" style="--brand: #00529B;"><span class="client-mark">Baby Bunting</span></div>
-      <div class="client" style="--brand: #00A0DC;"><span class="client-mark">Tommee Tippee</span></div>
-      <div class="client" style="--brand: #2D5F3F;"><span class="client-mark">Cobram Estate</span></div>
-      <div class="client" style="--brand: #E60028;"><span class="client-mark">RMIT</span></div>
-      <div class="client client--more"><span class="client-mark">+ more</span></div>
+      <a href="https://solana.com" target="_blank" rel="noopener" class="client" aria-label="Solana">
+        <img src="images/logos/solana.svg" alt="Solana" class="client-logo" loading="lazy">
+      </a>
+      <a href="https://www.nike.com" target="_blank" rel="noopener" class="client" aria-label="Nike">
+        <img src="images/logos/nike.svg" alt="Nike" class="client-logo client-logo--mark" loading="lazy">
+      </a>
+      <a href="https://www.hypedc.com" target="_blank" rel="noopener" class="client" aria-label="Hype DC">
+        <img src="images/logos/hypeDC.svg" alt="Hype DC" class="client-logo" loading="lazy">
+      </a>
+      <a href="https://solana.org" target="_blank" rel="noopener" class="client" aria-label="Solana Foundation">
+        <img src="images/logos/foundation.svg" alt="Solana Foundation" class="client-logo" loading="lazy">
+      </a>
+      <a href="https://superteam.fun" target="_blank" rel="noopener" class="client" aria-label="Superteam">
+        <img src="images/logos/superteam.svg" alt="Superteam" class="client-logo" loading="lazy">
+      </a>
+      <a href="https://www.samsung.com" target="_blank" rel="noopener" class="client" aria-label="Samsung">
+        <img src="images/logos/Samsung.svg" alt="Samsung" class="client-logo" loading="lazy">
+      </a>
+      <a href="https://acclaim.agency" target="_blank" rel="noopener" class="client" aria-label="Acclaim">
+        <img src="images/logos/acclaim.svg" alt="Acclaim" class="client-logo" loading="lazy">
+      </a>
+      <a href="https://www.babybunting.com.au" target="_blank" rel="noopener" class="client" aria-label="Baby Bunting">
+        <img src="images/logos/babybunting.svg" alt="Baby Bunting" class="client-logo" loading="lazy">
+      </a>
+      <a href="https://www.tommeetippee.com" target="_blank" rel="noopener" class="client" aria-label="Tommee Tippee">
+        <img src="images/logos/tommee-tippee.svg" alt="Tommee Tippee" class="client-logo client-logo--mark" loading="lazy">
+      </a>
+      <a href="https://www.cobramestate.com.au" target="_blank" rel="noopener" class="client" aria-label="Cobram Estate">
+        <img src="images/logos/cobram.svg" alt="Cobram Estate" class="client-logo client-logo--mark" loading="lazy">
+      </a>
+      <a href="https://www.rmit.edu.au" target="_blank" rel="noopener" class="client" aria-label="RMIT">
+        <img src="images/logos/rmit.svg" alt="RMIT" class="client-logo" loading="lazy">
+      </a>
+      <span class="client client--more">+ more</span>
     </div>
   </section>
 
   <!-- ============ TESTIMONIALS ============ -->
   <section class="section shell testimonials reveal">
     <div class="testimonial">
-      <blockquote>"Placeholder for a real testimonial — a sentence about working with you, what changed, and what shipped. Two to three lines reads best at this size."</blockquote>
+      <blockquote>"Placeholder for a real testimonial — a sentence about working with you, what changed, and what shipped. Two to three lines reads best at this&nbsp;size."</blockquote>
       <cite>
         <span class="name">Client Name</span>
         <span class="role">Title, Company</span>
@@ -144,7 +178,7 @@
     </div>
 
     <div class="testimonial">
-      <blockquote>"A second placeholder. Each quote should feel specific — about the work and the partnership, not generic praise. Replace with the strongest words a real client has said."</blockquote>
+      <blockquote>"A second placeholder. Each quote should feel specific — about the work and the partnership, not generic praise. Replace with the strongest words a real client has&nbsp;said."</blockquote>
       <cite>
         <span class="name">Client Name</span>
         <span class="role">Title, Company</span>
@@ -152,7 +186,7 @@
     </div>
 
     <div class="testimonial">
-      <blockquote>"A third placeholder. Skip this section entirely if you don't have testimonials yet — it cuts cleanly and the page still reads strong."</blockquote>
+      <blockquote>"A third placeholder. Skip this section entirely if you don't have testimonials yet — it cuts cleanly and the page still reads&nbsp;strong."</blockquote>
       <cite>
         <span class="name">Client Name</span>
         <span class="role">Title, Company</span>
@@ -164,7 +198,7 @@
   <footer class="footer">
     <div class="footer-top">
       <div>
-        <p class="footer-tagline">Independent product, UI, UX & brand design — for founders and teams shipping the products people actually want to use.</p>
+        <p class="footer-tagline">Independent product, UI, UX &amp; brand design — for founders and teams shipping the products people actually want to&nbsp;use.</p>
         <a href="mailto:hello@graysunderland.com" class="cta">
           Start a project
           <span class="arrow">↗</span>
