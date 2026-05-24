@@ -79,15 +79,15 @@
   /* ---- Typed hero word ---- */
   const typedEl = document.querySelector('[data-typed]');
   if (typedEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    /* Non-breaking spaces (\u00A0) bind multi-word phrases as a single
-       unit so they never split into a single-word orphan line on mobile.
-       3-word phrases get all words bound; 2-word phrases need no binding. */
+    /* Each phrase completes "Product, UI, UX & brand. Shipped ___"
+       Non-breaking spaces (\u00A0) bind multi-word phrases as a single
+       unit so they never split into a single-word orphan line on mobile. */
     const words = [
-      'most\u00A0ambitious\u00A0teams.',
-      'boldest founders.',
-      'sharpest operators.',
-      'best-in-class builders.',
-      'most\u00A0relentless\u00A0teams.'
+      'since\u00A02011.',
+      'through every\u00A0cycle.',
+      "for the world's\u00A0best.",
+      'before the\u00A0playbook.',
+      'since the early\u00A0days.'
     ];
     const TYPE_SPEED = 70;
     const DELETE_SPEED = 35;
@@ -124,7 +124,7 @@
 
     setTimeout(step, 500);
   } else if (typedEl) {
-    typedEl.textContent = "most\u00A0ambitious\u00A0teams.";
+    typedEl.textContent = "since\u00A02011.";
   }
 
   /* ---- Nav scroll state ---- */

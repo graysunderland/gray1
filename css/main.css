@@ -244,15 +244,16 @@ h1, h2, h3, h4, blockquote, .about-statement p:first-child,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(241, 237, 232, 0.85);
+  background: rgba(20, 20, 20, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid transparent;
   transition: border-color var(--dur) var(--ease);
+  color: var(--bg);
 }
 
 .nav.is-scrolled {
-  border-bottom-color: var(--line-soft);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
 .nav-brand {
@@ -261,6 +262,7 @@ h1, h2, h3, h4, blockquote, .about-statement p:first-child,
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+  color: var(--bg);
 }
 
 .nav-links {
@@ -275,6 +277,7 @@ h1, h2, h3, h4, blockquote, .about-statement p:first-child,
   letter-spacing: -0.005em;
   position: relative;
   padding: 4px 0;
+  color: var(--bg);
   transition: opacity var(--dur-fast) var(--ease);
 }
 
@@ -296,11 +299,11 @@ h1, h2, h3, h4, blockquote, .about-statement p:first-child,
   transform-origin: left;
 }
 
-/* Contact CTA in nav — pill style */
+/* Contact CTA in nav — inverted pill (white on black nav) */
 .nav-cta {
   padding: 8px 16px;
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--bg);
+  color: var(--ink);
   border-radius: 999px;
   font-weight: 500;
   transition: transform var(--dur) var(--ease), background var(--dur) var(--ease);
@@ -632,7 +635,8 @@ h1, h2, h3, h4, blockquote, .about-statement p:first-child,
 /* ---- Clients section ---- */
 .clients-section {
   border-top: 1px solid var(--line);
-  padding-top: clamp(60px, 8vw, 100px);
+  padding-top: clamp(80px, 10vw, 140px);
+  padding-bottom: clamp(60px, 8vw, 100px);
 }
 
 .clients-intro {
@@ -641,22 +645,25 @@ h1, h2, h3, h4, blockquote, .about-statement p:first-child,
   letter-spacing: -0.025em;
   line-height: 1.1;
   color: var(--ink);
-  margin-bottom: clamp(48px, 7vw, 88px);
-  max-width: 24ch;
+  margin-bottom: clamp(64px, 8vw, 112px);
+  max-width: 28ch;
 }
 
+/* 3×3 grid with extra side padding so the wall sits inset from the page edges.
+   Each cell centers the logo for visual balance regardless of logo width. */
 .clients-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(40px, 5vw, 80px) clamp(32px, 4vw, 64px);
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(56px, 7vw, 120px) clamp(48px, 6vw, 96px);
   align-items: center;
+  padding-inline: clamp(0px, 6vw, 96px);
 }
 
 .client {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  min-height: 48px;
+  justify-content: center;
+  min-height: 56px;
   transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
 }
 
@@ -664,36 +671,36 @@ h1, h2, h3, h4, blockquote, .about-statement p:first-child,
   /* Force monotone — strips any colour from the source SVG. */
   filter: brightness(0);
   /* Wordmark default — wide horizontal logos */
-  height: clamp(20px, 1.8vw, 28px);
+  height: clamp(22px, 2vw, 32px);
   width: auto;
   max-width: 100%;
   object-fit: contain;
-  object-position: left center;
+  object-position: center;
   opacity: 0.55;
   transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
   display: block;
 }
 
-/* Stacked / icon-led logos (Nike, Cobram, Tommee Tippee) need more vertical
-   space to register at similar visual weight to the wordmarks. */
+/* Stacked / icon-led logos need more vertical space to register at similar
+   visual weight to the wordmarks. Three steps: default mark, +20%, +60%. */
 .client-logo--mark {
-  height: clamp(36px, 3.2vw, 52px);
+  height: clamp(40px, 3.6vw, 56px);
+}
+
+.client-logo--mark-md {
+  /* +20% larger than default mark — used for Cobram (stacked lockup) */
+  height: clamp(48px, 4.3vw, 67px);
+}
+
+.client-logo--mark-lg {
+  /* +60% larger than default mark — used for Tommee Tippee (square icon) */
+  height: clamp(64px, 5.8vw, 90px);
 }
 
 a.client:hover .client-logo,
 a.client:focus-visible .client-logo {
   opacity: 1;
   transform: translateY(-2px);
-}
-
-/* Muted "+ more" sentinel — stays as text */
-.client--more {
-  color: var(--ink-mute);
-  font-weight: 400;
-  font-family: var(--font-mono);
-  font-size: var(--fs-sm);
-  letter-spacing: 0;
-  align-self: center;
 }
 
 /* ---- Testimonials ---- */
@@ -850,7 +857,11 @@ a.client:focus-visible .client-logo {
 
   .work-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
-  .clients-grid { grid-template-columns: repeat(3, 1fr); gap: 36px 32px; }
+  .clients-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 44px 32px;
+    padding-inline: clamp(0px, 3vw, 32px);
+  }
 
   .testimonial { grid-template-columns: 1fr; gap: 16px; }
   .testimonial blockquote,
@@ -865,7 +876,12 @@ a.client:focus-visible .client-logo {
 @media (max-width: 560px) {
   .nav-link.hide-mobile { display: none; }
   .footer-top { grid-template-columns: 1fr; }
-  .clients-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
+  /* Keep 3 columns on phone to preserve the 3×3 grid integrity */
+  .clients-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 16px;
+    padding-inline: 0;
+  }
   .work-grid { grid-template-columns: 1fr; gap: 12px; }
 
   /* Mobile: hover overlays don't work — always show name as a static caption */
