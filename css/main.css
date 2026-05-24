@@ -244,9 +244,7 @@ h1, h2, h3, h4, blockquote, .about-statement p:first-child,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(20, 20, 20, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: #000;
   border-bottom: 1px solid transparent;
   transition: border-color var(--dur) var(--ease);
   color: var(--bg);
@@ -751,9 +749,10 @@ a.client:focus-visible .client-logo {
 
 /* ---- Footer ---- */
 .footer {
-  padding: clamp(80px, 10vw, 140px) var(--gutter) clamp(40px, 5vw, 60px);
+  padding: clamp(80px, 10vw, 140px) var(--gutter) 0;
   border-top: 1px solid var(--line);
   margin-top: var(--section-y);
+  overflow: hidden;
 }
 
 .footer-top {
@@ -808,9 +807,31 @@ a.client:focus-visible .client-logo {
   color: var(--ink-soft);
 }
 
+/* Copyright row — now sits ABOVE the cropped wordmark.
+   Border-top divider provides visual separation from footer-top grid. */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-xs);
+  color: var(--ink-mute);
+}
+
+/* Stylised giant wordmark — bleeds off the bottom of the viewport.
+   We use a negative margin-bottom equal to roughly half the rendered height
+   so the lower half of the glyphs is clipped by the footer's overflow:hidden.
+   The aspect of the SVG is 10:1 (viewBox 1000x100), and the SVG fills 100%
+   of the footer width. So at any width W, rendered height ≈ W/10. We crop
+   ~55% by pulling it down with negative margin. */
 .footer-wordmark {
-  margin-block: clamp(40px, 5vw, 60px);
   width: 100%;
+  margin-top: clamp(40px, 6vw, 80px);
+  /* Pull the lower half off-page. Using vw to scale with the SVG height. */
+  margin-bottom: clamp(-12vw, -5.5vw, -4vw);
+  /* Above line uses min/max to clamp the negative value; on smaller viewports
+     the SVG is smaller in absolute px, so we don't need as deep a negative. */
 }
 
 .footer-wordmark svg {
@@ -821,16 +842,6 @@ a.client:focus-visible .client-logo {
 
 .footer-wordmark svg text {
   fill: var(--ink);
-}
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-  font-size: var(--fs-xs);
-  color: var(--ink-mute);
 }
 
 /* ---- Reveal animation ----
